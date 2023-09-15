@@ -553,10 +553,10 @@ class ConstantLengthDataset(IterableDataset):
                     else:
                         more_examples = False
                         break
-            tokenized_inputs = self.tokenizer(buffer, truncation=False)["input_ids"]
+            tokenized_inputs = self.tokenizer(buffer, truncation=True, padding="max_length", max_length = self.seq_length)["input_ids"]
             all_token_ids = []
             for tokenized_input in tokenized_inputs:
-                all_token_ids.extend(tokenized_input + [self.concat_token_id])
+                all_token_ids.extend(tokenized_input)
             examples = []
             for i in range(0, len(all_token_ids), self.seq_length):
                 input_ids = all_token_ids[i : i + self.seq_length]
